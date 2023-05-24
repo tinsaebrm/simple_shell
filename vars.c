@@ -1,91 +1,87 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "shell.h"
 
-typedef struct {
-    int argc;
-    char **argv;
-} CommandInfo;
-
-int is_chain(CommandInfo *info, char *buf, char *p);
-int check_chain(CommandInfo *info, char *buf, char *p, int i, int len);
-int replace_alias(CommandInfo *info);
-int replace_vars(CommandInfo *info);
-int replace_string(char **old, char *new);
-
-int is_chain(CommandInfo *info, char *buf, char *p) {
-    if (*p == '\0') 
-	{
-	return 1; 
-	}
-
-	if (*p == '$')
-	{
-	return (replace_vars(info));
-	}
-
-	if (*p == '!')
+/**
+ * _strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
+ *
+ * Return: pointer to destination
+ */
+char *_strcpy(char *dest, char *src)
 {
-	return (replace_alias(info));
-}
-	return (check_chain(info, buf, p, 0, info->argc));
-}
+	int i = 0;
 
-int check_chain(CommandInfo *info, char *buf, char *p, int i, int len) {
-	int j;
-
-	if (i == len)
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[i])
 	{
-	return (0);
+		dest[i] = src[i];
+		i++;
 	}
-	for (j = 0; info->argv[i][j] != '\0'; j++) {
-		if (info->argv[i][j] != *p) {
-		return check_chain((info, buf, p, i + 1, len));
-	}
-	p++;
-	}
+	dest[i] = 0;
+	return (dest);
+}
 
-	if (*p != '\0')
+/**
+ * _strdup - duplicates a string
+ * @str: the string to duplicate
+ *
+ * Return: pointer to the duplicated string
+ */
+char *_strdup(const char *str)
+{
+	int length = 0;
+	char *ret;
+
+	if (str == NULL)
+		return (NULL);
+	while (*str++)
+		length++;
+	ret = malloc(sizeof(char) * (length + 1));
+	if (!ret)
+		return (NULL);
+	for (length++; length--;)
+		ret[length] = *--str;
+	return (ret);
+}
+
+/**
+ *_puts - prints an input string
+ *@str: the string to be printed
+ *
+ * Return: Nothing
+ */
+void _puts(char *str)
+{
+	int i = 0;
+
+	if (!str)
+		return;
+	while (str[i] != '\0')
 	{
-		return (check_chain(info, buf, p, i + 1, len));
+		_putchar(str[i]);
+		i++;
 	}
+}
 
-	strcpy(buf, info->argv[i]);
+/**
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putchar(char c)
+{
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(1, buf, i);
+		i = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
 	return (1);
 }
-
-int replace_alias(CommandInfo *info) {
-	char buf[256];
-	char *p;
-
-	if (info->argc == 0) {
-	return 0;
-	}
-	p = buf;
-	if (is_chain(info, buf, p)) 
-	{
-		replace_string(&info->argv[0], _strdup(buf))
-	}
-
-	return (0);
-}
-
-int replace_vars(CommandInfo *info) {
-	int i;
-
-    for (i = 0; i < info->argc; i++) {
-	if (strchr(info->argv[i], '$') == NULL) {
-		continue;
-	}
-		replace_string(&info->argv[i], _strdup(""));
-	}
-
-	return (0);
-}
-
-int replace_string(char **old, char *new) {
-	free(*old);
-	*old = new;
-	return (1);
-}
-

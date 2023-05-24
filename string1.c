@@ -1,6 +1,28 @@
 #include "shell.h"
 
 /**
+ * _strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
+ *
+ * Return: pointer to destination
+ */
+char *_strcpy(char *dest, char *src)
+{
+	int i = 0;
+
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
+
+/**
  * _strdup - duplicates a string
  * @str: the string to duplicate
  *
@@ -23,51 +45,24 @@ char *_strdup(const char *str)
 	return (ret);
 }
 
-
 /**
- * _strcpy - copies a string
- * @dest: the destination
- * @src: the source
+ *_puts - prints an input string
+ *@str: the string to be printed
  *
- * Return: pointer to destination
+ * Return: Nothing
  */
-char *_strcpy(char *dest, char *src)
+void _puts(char *str)
 {
 	int i = 0;
 
-	if (dest == src || src == 0)
-		return (dest);
-	while (src[i])
+	if (!str)
+		return;
+	while (str[i] != '\0')
 	{
-		dest[i] = src[i];
+		_putchar(str[i]);
 		i++;
 	}
-	dest[i] = 0;
-	return (dest);
 }
-
-/**
- * _strcpy - copies a string
- * @dest: the destination
- * @src: the source
- *
- * Return: pointer to destination
- */
-char *_strcpy(char *dest, char *src)
-{
-	int i = 0;
-
-	if (dest == src || src == 0)
-		return (dest);
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
-}
-
 
 /**
  * _putchar - writes the character c to stdout
@@ -90,6 +85,3 @@ int _putchar(char c)
 		buf[i++] = c;
 	return (1);
 }
-/**
- * Name of contributor - Akohinmiogbegbile
- */
