@@ -1,3 +1,4 @@
+errors1.c
 #include "shell.h"
 
 /**
@@ -138,10 +139,3 @@ void remove_comments(char *buf)
 			break;
 		}
 }
-/**
- * Name of contributor - Akoh inmiogbegbile
- *
- *
- * simple_shell
- * code for errors1.c
- */

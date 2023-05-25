@@ -72,8 +72,3 @@ int _atoi(char *s)
 
 	return (result);
 }
-
-/*
- * Contributor: Akoh Inmiogbegbile
- */
-
